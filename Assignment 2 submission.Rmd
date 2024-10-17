@@ -25,14 +25,13 @@ Q1.1. Perform PCA on the features of the dataset. How much of the variation in t
 ovarian.pca <- prcomp(ovarian.dataset[features], center = TRUE, scale. = TRUE)
 summary(features.pca)$importance[2,1]
 ```
+
 Q1.2. You want to represent 90% of the variance in the data by dimensionality reduction. How many PCs do you need to achieve this? In other word, what would be the dimensionality of the reduced feature space so that you preserve 90% of the variability in the data? 
 
 ```{r}
 variance <- summary(ovarian.pca)$importance[2,]
 which(cumsum(variance) >= 0.90)[1]
 ```
-
-  The cumulative proportion for PC9 is 0.90101. Therefore, 9PCs are needed to represent at least 90% of the variance in the data
 
 Q1.3. As you should know by now, PCA transforms the data into a new space. In a 2-D plot, can you plot the observations corresponding to the first two important PCs? Note, use two different colors to represent the two classes of cells.
 
