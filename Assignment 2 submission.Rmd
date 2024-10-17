@@ -1,6 +1,6 @@
 ---
 title: "Assignment 2 submission"
-author: "Anya Wongreantong"
+author: "Anya Wongreantong, Willem Barnard, "
 date: "2024-10-16"
 output:
   pdf_document: default
@@ -252,3 +252,99 @@ perform <- performance(predict,"tpr","fpr")
 plot(perform,colorize=TRUE)
 ```
 
+Q3.6 . Design another classifier (using a different classification method) and repeat Q3.1-3.
+
+```{r}
+#install.packages("randomForest")
+library(randomForest)
+```
+
+
+```{r}
+# Convert diagnosis to binary values (1 for Malignant, 0 for Benign)
+ovarian.dataset$diagnosis_binary <- ifelse(ovarian.dataset$diagnosis == "M", 1, 0)
+# Split the dataset into training and test sets
+ovarian.dataset.train <- ovarian.dataset[sample(nrow(ovarian.dataset))[1:(nrow(ovarian.dataset)/2)],]
+ovarian.dataset.test <- ovarian.dataset[sample(nrow(ovarian.dataset))[(nrow(ovarian.dataset)/2):(nrow(ovarian.dataset))],]
+# Train the logistic regression model on the training set using the binary diagnosis variable
+randomForest_model <- randomForest(diagnosis_binary ~ perimeter + area + smoothness + symmetry + concavity +
+protein1 + protein2 + protein3 + protein4 + protein5,
+data = ovarian.dataset.train)
+7
+# Make predictions on the training set
+train_pred <- predict(logistic_model, ovarian.dataset.train, type = "response")
+train_class <- ifelse(train_pred >= 0.5, "M", "B")
+# Make predictions on the test set
+test_pred <- predict(logistic_model, ovarian.dataset.test, type = "response")
+test_class <- ifelse(test_pred >= 0.5, "M", "B")
+# Function to calculate accuracy, precision, and recall
+evaluate_performance <- function(true_labels, predictions) {
+tp <- sum(predictions == "M" & true_labels == "M")
+tn <- sum(predictions == "B" & true_labels == "B")
+fp <- sum(predictions == "M" & true_labels == "B")
+fn <- sum(predictions == "B" & true_labels == "M")
+accuracy <- (tp + tn) / length(true_labels)
+precision <- tp / (tp + fp)
+recall <- tp / (tp + fn)
+return(c(accuracy = accuracy, precision = precision, recall = recall))
+}
+# Evaluate model performance as before
+train_performance <- evaluate_performance(ovarian.dataset.train$diagnosis, train_class)
+print("Training Performance")
+```
+```{r}
+print(train_performance)
+```
+
+```{r}
+test_performance <- evaluate_performance(ovarian.dataset.test$diagnosis, test_class)
+print("Test Performance")
+```
+
+```{r}
+print(test_performance)
+```
+```{r}
+# Prepare the data by using the first 5 PCs
+ovarian.dataset$PC1 <- ovarian.pca$x[, 1]
+ovarian.dataset$PC2 <- ovarian.pca$x[, 2]
+ovarian.dataset$PC3 <- ovarian.pca$x[, 3]
+ovarian.dataset$PC4 <- ovarian.pca$x[, 4]
+8
+ovarian.dataset$PC5 <- ovarian.pca$x[, 5]
+# Convert diagnosis to binary values (1 for Malignant, 0 for Benign)
+ovarian.dataset$diagnosis_binary <- ifelse(ovarian.dataset$diagnosis == "M", 1, 0)
+# Split the dataset into training and test sets
+ovarian.dataset.train <- ovarian.dataset[sample(nrow(ovarian.dataset))[1:(nrow(ovarian.dataset)/2)],]
+ovarian.dataset.test <- ovarian.dataset[sample(nrow(ovarian.dataset))[(nrow(ovarian.dataset)/2):(nrow(ovarian.dataset))],]
+# Train the logistic regression model using the top 5 PCs
+randomForest_model_pcs <- randomForest(diagnosis_binary ~ PC1 + PC2 + PC3 + PC4 + PC5,
+data = ovarian.dataset.train)
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+# Make predictions on the training set
+train_pred_pcs <- predict(logistic_model_pcs, ovarian.dataset.train, type = "response")
+train_class_pcs <- ifelse(train_pred_pcs >= 0.5, "M", "B")
+# Make predictions on the test set
+test_pred_pcs <- predict(logistic_model_pcs, ovarian.dataset.test, type = "response")
+test_class_pcs <- ifelse(test_pred_pcs >= 0.5, "M", "B")
+# Evaluate model performance as before
+train_performance_pcs <- evaluate_performance(ovarian.dataset.train$diagnosis, train_class_pcs)
+print("Training Performance with Top 5 PCs")
+
+
+```
+
+```{r}
+print(train_performance_pcs)
+```
+
+```{r}
+test_performance_pcs <- evaluate_performance(ovarian.dataset.test$diagnosis, test_class_pcs)
+print("Test Performance with Top 5 PCs")
+```
+
+```{r}
+print(test_performance_pcs)
+```
+ 
+In this case we used the randomForest classification method which we found when running the training data to have a percision of 100% which means that the number of false positives is equal to zero. This means the training set of data never included any false positive or that is could not find any false positives. We also found the outcome of the two methods to be very similar but the accuracy using the randomForest method was higher by0.3 percent and the precision was lower by 0.8 percent.
