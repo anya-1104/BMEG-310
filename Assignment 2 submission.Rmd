@@ -227,8 +227,6 @@ print("Test Performance with Top 5 PCs")
 print(test_performance_pcs)
 
 ```
-  test set shows a slightly better value in accuracy and recall, and slight decrease in precision. The slightly better performance on the test set suggests that the logistic regression model generalizes well and effectively captures the core patterns in the data without overfitting.
-
 Q3.3. Compare the results between Q3.1. and Q3.2. Do the results get better or worse? Why?
 
 Between 3.1 and 3.2, Q3.2 gives a higher amount of accuracy and precision along with a higher recall rate.
