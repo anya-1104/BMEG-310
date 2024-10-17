@@ -231,7 +231,19 @@ print(test_performance_pcs)
 
 Q3.3. Compare the results between Q3.1. and Q3.2. Do the results get better or worse? Why?
 
-  accuracy, precision, and recall improved when using the top 5 PCs in 3.2. The principle Components capture the most significant variance in the data, potentially removing noise and redundant information from the original features. By focusing on the top 5 PCs, the classifier may be better at generalizing, thus leading to better performance on unseen data.
+Between 3.1 and 3.2, Q3.2 gives a higher amount of accuracy and precision along with a higher recall rate.
+
+The formula of accuracy is as follows: (True + False Positives)/Total Observations 
+The formula of precision is as follows: (True Positives)/(True Positives + False Positives)
+The formula of recall is as follows: (True Positives)/(True Positives + False Negatives)
+
+As Q3.2 is higher in all three cases, it implies that it has a high level of true positives and a low degree of false positives and false negatives compared to Q3.1. 
+
+When PCA testing is done, it reduces the dimensions of the data, thereby removing all the redundant noise and "extra" data in the set, only visualising the most important variability. As this extra data is removed, it allows only the most important of information to remain in the dataset, and therefore increasing both the accuracy and precision as redundant data is not there to "stain" the dataset. 
+
+By only including the top five PCAs, the five most important PCAs with the most variability, Q3.3 further only calculates with the most important data, which further leads to more accurate and precise results with high recall. 
+
+However, it is important to note that Q3.1's result is also quite high, so it is not a terrible representation of the data, it is just that Q3.2's method gives a more better answer. 
 
 Q3.4. Compare the results of the clustering and classification methods. Which one gives you better result?
 
