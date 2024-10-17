@@ -283,7 +283,6 @@ ovarian.dataset.test <- ovarian.dataset[sample(nrow(ovarian.dataset))[(nrow(ovar
 randomForest_model <- randomForest(diagnosis_binary ~ perimeter + area + smoothness + symmetry + concavity +
 protein1 + protein2 + protein3 + protein4 + protein5,
 data = ovarian.dataset.train)
-7
 # Make predictions on the training set
 train_pred <- predict(logistic_model, ovarian.dataset.train, type = "response")
 train_class <- ifelse(train_pred >= 0.5, "M", "B")
@@ -323,7 +322,6 @@ ovarian.dataset$PC1 <- ovarian.pca$x[, 1]
 ovarian.dataset$PC2 <- ovarian.pca$x[, 2]
 ovarian.dataset$PC3 <- ovarian.pca$x[, 3]
 ovarian.dataset$PC4 <- ovarian.pca$x[, 4]
-8
 ovarian.dataset$PC5 <- ovarian.pca$x[, 5]
 # Convert diagnosis to binary values (1 for Malignant, 0 for Benign)
 ovarian.dataset$diagnosis_binary <- ifelse(ovarian.dataset$diagnosis == "M", 1, 0)
@@ -360,4 +358,4 @@ print("Test Performance with Top 5 PCs")
 print(test_performance_pcs)
 ```
  
-In this case we used the randomForest classification method which we found when running the training data to have a percision of 100% which means that the number of false positives is equal to zero. This means the training set of data never included any false positive or that is could not find any false positives. We also found the outcome of the two methods to be very similar but the accuracy using the randomForest method was higher by0.3 percent and the precision was lower by 0.8 percent.
+In this case we used the randomForest classification method which we found it to have a precision of 100% when running the training data, which means that the number of false positives is equal to zero. This means the training set of data never included any false positive so we ran the code again and the training precision changed. We also found the outcome of the two methods to be very similar but the accuracy using the randomForest method was higher by 0.3 percent and the precision was lower by 0.8 percent. When comparing this method of classification to the linear regression model we used previously we find that both give us similar outputs this means the difference between the the to methods is with the algorithm its self and but those differences don't affect greatly change the outcome. Some of these differences can include amount of processing power used, number of iterations, efficiency of the algorithm. Either way both of these are viable options for classifying whether we get true/false positives and true/false negatives since they both yield high 90 percent on accuracy, precision and recall. When comparing the test cases of the randomForset model when we use 5 PCs versus when we use all the data we again remove all the redundant noise and are left with higher values in accuracy, precision, and recall. This is nearly identical to the change we see when we remove the noise from the linear regression model except for in recall we see a 7 percent increase using randomForest and only a 3 percent increase using linear regression.
