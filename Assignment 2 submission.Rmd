@@ -20,7 +20,6 @@ head(ovarian.dataset)
 
 Q1.1. Perform PCA on the features of the dataset. How much of the variation in the data is associated with PC1?
 
-  proportion of variance explained by PC1: 0.4277
 ```{r}
 ovarian.pca <- prcomp(ovarian.dataset[features], center = TRUE, scale. = TRUE)
 summary(features.pca)$importance[2,1]
